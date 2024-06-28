@@ -1,10 +1,36 @@
 import json
+import os.path
+import shutil
 from beaupy import select, select_multiple
 from rich.console import Console
+import tkinter as tk
+from tkinter import filedialog
+
+#
 
 console = Console()
 
 file_path = '0_localsave.json'
+if not os.path.isfile(file_path) or os.path.isfile('save.json'):
+    console.print("⚠️ Save file not found", style="#FFA500")
+    print(r'Your save file should be located at: '
+          r'C:\Program Files (x86)\Steam\userdata\[Number]\1337520\remote\'')
+    console.input("Move the program to the directory with the save file"
+                  " or press [bold]Enter[/bold] to select it manually")
+    root = tk.Tk()
+    root.withdraw()
+
+    file_path = filedialog.askopenfilename()
+if not file_path or "save.json" not in file_path:
+    exit()
+
+backup_file = "save_backup.json"
+backup_maked = False
+if not os.path.isfile(backup_file):
+    shutil.copy(file_path, backup_file)
+    backup_maked = True
+
+
 with open(file_path, 'r', encoding="utf-8") as savefile:  # Opens the json file
     data = json.load(savefile)  # Reads the file as json
 flags = data["flags"]  # Grabs the "flags" list from the json
@@ -110,7 +136,6 @@ artifacts = {"Honor": 'artifact_honor', "Kin": 'artifact_kin', "Distortion": 'ar
              }
 
 
-# "Your save file should be located at: C:\Program Files (x86)\Steam\userdata\[Number]\632360\remote\UserProfiles"
 def modify_characters():
     unlocked_pc = get_unlocked_param(characters)
 
@@ -132,7 +157,7 @@ def modify_skills():
         unlocked_pc_skills = get_unlocked_param(all_pc_skills)
 
         console.clear()
-        # console.print(logo_text)
+        console.print(logo_text)
         console.print(selected_pc, "abilities ([bold]esc[/bold] to return)")
         selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
                                           ticked_indices=list(unlocked_pc_skills.values()))
@@ -141,7 +166,7 @@ def modify_skills():
         write_to_save_file()
 
         console.clear()
-        # console.print(logo_text)
+        console.print(logo_text)
         console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)")
         selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(s_characters.keys()).index(selected_pc))
@@ -149,6 +174,7 @@ def modify_skills():
 
 def modify_skins():
     console.clear()
+    console.print(logo_text)
     console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
     selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green")
     while selected_pc:
@@ -156,7 +182,7 @@ def modify_skins():
         unlocked_pc_skins = get_unlocked_param(all_pc_skins)
 
         console.clear()
-        # console.print(logo_text)
+        console.print(logo_text)
         console.print(selected_pc, "skins ([bold]esc[/bold] to return)")
         selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
                                          ticked_indices=list(unlocked_pc_skins.values()))
@@ -166,7 +192,7 @@ def modify_skins():
         write_to_save_file()
 
         console.clear()
-        # console.print(logo_text)
+        console.print(logo_text)
         console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
         selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(characters.keys()).index(selected_pc))
@@ -205,33 +231,35 @@ logo_img = """
 """
 
 
-def main_menu():
+def main_menu(selected_item):
     console.print(logo_text)
 
     # Confirm a dialog
     options = ["Unlock Characters", "Unlock Abilities", "Unlock Skins", "Unlock Artifacts", "Exit"]
     # Choose one item from a list
-    choice = select(options, cursor="🢧", cursor_style="green")
+    choice = select(options, cursor="🢧", cursor_style="green", cursor_index=options.index(selected_item))
 
     return choice
 
 
-menu_choice = True
+menu_choice = "Unlock Characters"
 while menu_choice:
     console.clear()
-    menu_choice = main_menu()
+
+    if backup_maked:
+        console.print("⚠️ Backup file created, "
+                      "rename it and replace the original safe if something went wrong", style="#FFA500")
+        backup_maked = False
+        
+    menu_choice = main_menu(menu_choice)
 
     if menu_choice == "Unlock Characters":
-        console.clear()
         modify_characters()
     elif menu_choice == "Unlock Abilities":
-        console.clear()
         modify_skills()
     elif menu_choice == "Unlock Skins":
-        console.clear()
         modify_skins()
     elif menu_choice == "Unlock Artifacts":
-        console.clear()
         modify_artifacts()
     elif menu_choice == "Exit":
         console.clear()
