@@ -1,22 +1,15 @@
-"""
-Trevor Amestoy
-Cornell University
-January, 2023
-"""
-
-# Import the helpers from the current folder "."
-
 from beaupy import select, select_multiple
 from rich.console import Console
 from . import core
 
 console = Console()
 
-logo_text = r"""
+logo_game = r"""
    ___  _     __          ___  ___       _        ___      __
   / _ \(_)__ / /__  ___  / _/ / _ \___ _(_)__    / _ \___ / /___ _________  ___
  / , _/ (_-</  '_/ / _ \/ _/ / , _/ _ `/ / _ \  / , _/ -_) __/ // / __/ _ \(_-<
-/_/|_/_/___/_/\_\  \___/_/  /_/|_|\_,_/_/_//_/ /_/|_|\__/\__/\_,_/_/ /_//_/___/
+/_/|_/_/___/_/\_\  \___/_/  /_/|_|\_,_/_/_//_/ /_/|_|\__/\__/\_,_/_/ /_//_/___/"""
+logo_editor = r"""
           / __/__ __  _____ / _(_) /__   ___ ___/ (_) /____  ____
          _\ \/ _ `/ |/ / -_) _/ / / -_) / -_) _  / / __/ _ \/ __/
         /___/\_,_/|___/\__/_//_/_/\__/  \__/\_,_/_/\__/\___/_/
@@ -90,27 +83,35 @@ artifacts = {"Honor": 'artifact_honor', "Kin": 'artifact_kin', "Distortion": 'ar
 
 
 def modify_characters(savefile):
+    """
+    Manage unlockable characters
+    :param savefile: path to save file
+    """
     unlocked_pc = core.get_unlocked_param(characters)
 
-    console.print("Manage game characters")
-    # Choose multiple options from a list
+    console.print("Manage game characters ([bold]esc[/bold] to return)")
     slelected_pc = select_multiple(list(characters.keys()), tick_style='green', cursor_style='green',
                                    ticked_indices=list(unlocked_pc.values()))
 
     core.edit_save_file(slelected_pc, unlocked_pc, characters)
-
     core.write_to_save_file(savefile)
 
 
 def modify_skills(savefile):
+    """
+    Manage unlockable skils for each character
+    :param savefile: path to save file
+    """
     console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)")
     selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green")
+
     while selected_pc:
         all_pc_skills = core.get_pc_param(selected_pc, s_characters, skills)
         unlocked_pc_skills = core.get_unlocked_param(all_pc_skills)
 
         console.clear()
-        console.print(logo_text)
+        console.print(logo_game, highlight=False, style="#d68438", end='')
+        console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print(selected_pc, "abilities ([bold]esc[/bold] to return)")
         selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
                                           ticked_indices=list(unlocked_pc_skills.values()))
@@ -119,57 +120,71 @@ def modify_skills(savefile):
         core.write_to_save_file(savefile)
 
         console.clear()
-        console.print(logo_text)
+        console.print(logo_game, highlight=False, style="#d68438", end='')
+        console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)")
         selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(s_characters.keys()).index(selected_pc))
 
 
 def modify_skins(savefile):
+    """
+    Manage unlockable skins for each character
+    :param savefile: path to save file
+    """
     console.clear()
-    console.print(logo_text)
+    console.print(logo_game, highlight=False, style="#d68438", end='')
+    console.print(logo_editor, highlight=False, style="#4bb39a")
     console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
     selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green")
+
     while selected_pc:
         all_pc_skins = core.get_pc_param(selected_pc, characters, skins)
         unlocked_pc_skins = core.get_unlocked_param(all_pc_skins)
 
         console.clear()
-        console.print(logo_text)
+        console.print(logo_game, highlight=False, style="#d68438", end='')
+        console.print(logo_editor, highlight=False, style="#4bb39a")
+
         console.print(selected_pc, "skins ([bold]esc[/bold] to return)")
         selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
                                          ticked_indices=list(unlocked_pc_skins.values()))
 
         core.edit_save_file(selected_skins, unlocked_pc_skins, all_pc_skins)
-
         core.write_to_save_file(savefile)
 
         console.clear()
-        console.print(logo_text)
+        console.print(logo_game, highlight=False, style="#d68438", end='')
+        console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
         selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(characters.keys()).index(selected_pc))
 
 
 def modify_artifacts(savefile):
+    """
+    Manage unlockable artifacts
+    :param savefile:
+    """
     unlocked_artifacts = core.get_unlocked_param(artifacts)
 
-    console.print("Manage game artifacts")
-    # Choose multiple options from a list
+    console.print("Manage game artifacts", style="#d68438")
     slelected_artifacts = select_multiple(list(artifacts.keys()), tick_style='green', cursor_style='green',
                                           ticked_indices=list(unlocked_artifacts.values()))
 
     core.edit_save_file(slelected_artifacts, unlocked_artifacts, artifacts)
-
     core.write_to_save_file(savefile)
 
 
 def main_menu(selected_item):
-    console.print(logo_text)
+    """
+    Main menu options selection
+    :param selected_item: current cursor position
+    """
+    console.print(logo_game, highlight=False, style="#d68438", end='')
+    console.print(logo_editor, highlight=False, style="#4bb39a")
 
-    # Confirm a dialog
     options = ["Unlock Characters", "Unlock Abilities", "Unlock Skins", "Unlock Artifacts", "Exit"]
-    # Choose one item from a list
     choice = select(options, cursor="🢧", cursor_style="green", cursor_index=options.index(selected_item))
 
     return choice

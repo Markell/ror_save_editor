@@ -10,7 +10,7 @@ def run():
     check_backup(save_file)
     open_save_file(save_file)
 
-    menu_choice = "Unlock Characters"
+    menu_choice = "Unlock Characters"  # Initial cursor position
     while menu_choice:
         console.clear()
         menu_choice = editor.main_menu(menu_choice)
@@ -28,7 +28,7 @@ def run():
             break
 
     console.clear()
-    console.print(editor.logo_img)
+    console.print(editor.logo_img, highlight=False, style="#ffd557")
     console.input("                            Press [bold]Enter[/bold] to continue...")
 
 

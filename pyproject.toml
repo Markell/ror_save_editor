@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "ror_save_editor"
+version = "1.0"
+description = "Risk of Rains Returns save file editor"
+authors = ["Markell"]
+license = "GPL-3.0"
+repository = 'https://github.com/markell/ror_save_editor'
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.7.8,<4.0.0"
+beaupy="3.8.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
