@@ -1,14 +1,14 @@
 <br/>
 <div align="center">
   <div align="center">
-    <img src="./assets/program.png" width="800">
+    <img src="./assets/program.png" width="700">
   </div>
   <h1 align="center">RoR save editor</h1>
   <div align="center">Risk of Rain Returns save file editor.</div>
 </div>
 <br/>
 
-## About The Project
+## About
 Initially this project was a development of the program by [PhoenixRem1x](https://github.com/PhoenixRem1x/RoRR-Save-Editor), but later it was completely redesigned and supplemented by [gameplay.tips guide](https://gameplay.tips/guides/risk-of-rain-returns-unlock-characters-and-abilities-through-save-file-cheat-mode.html).
 
 ## Compatibility
@@ -30,7 +30,7 @@ poetry build
 pip install ./dist/ror_save_editor-{{some-version}}-py3-none-any.whl
 ```
 
-### To Do
+## To Do
 - [ ] Game wiki link system
 - [ ] Translation to all in game languages
 - [ ] Original Risk of Rain game support
