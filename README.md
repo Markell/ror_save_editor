@@ -1,7 +1,7 @@
 <br/>
 <div align="center">
   <div align="center">
-    <img src="./assets/program.png" width="500">
+    <img src="./assets/program.png" width="800">
   </div>
   <h1 align="center">RoR save editor</h1>
   <div align="center">Risk of Rain Returns save file editor.</div>
