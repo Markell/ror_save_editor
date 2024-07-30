@@ -1,8 +1,11 @@
+import sys
+
 from beaupy import select, select_multiple
 from rich.console import Console
 from . import core
-
-console = Console()
+import os
+import fnmatch
+from beaupy import DefaultKeys
 
 logo_game = r"""
    ___  _     __          ___  ___       _        ___      __
@@ -81,15 +84,26 @@ artifacts = {"Honor": 'artifact_honor', "Kin": 'artifact_kin', "Distortion": 'ar
              "Temporary": 'artifact_temporary', "Cognation": 'artifact_cognation'
              }
 
+console = Console()
+# Try to find in current dir save file by part of it name otherwise call file picker
+savefile = core.check_savefile(fnmatch.filter(os.listdir('.'), '*save.json'))
 
-def modify_characters(savefile):
+
+def int_savefile():
+    """
+    Check save backup and open save file
+    """
+    core.check_backup(savefile)
+    core.open_save_file(savefile)
+
+
+def modify_characters():
     """
     Manage unlockable characters
-    :param savefile: path to save file
     """
     unlocked_pc = core.get_unlocked_param(characters)
 
-    console.print("Manage game characters ([bold]esc[/bold] to return)")
+    console.print("Manage game characters ([bold]esc[/bold] to return)", style="#d68438")
     slelected_pc = select_multiple(list(characters.keys()), tick_style='green', cursor_style='green',
                                    ticked_indices=list(unlocked_pc.values()))
 
@@ -97,12 +111,11 @@ def modify_characters(savefile):
     core.write_to_save_file(savefile)
 
 
-def modify_skills(savefile):
+def modify_skills():
     """
     Manage unlockable skils for each character
-    :param savefile: path to save file
     """
-    console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)")
+    console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)", style="#d68438")
     selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green")
 
     while selected_pc:
@@ -112,7 +125,8 @@ def modify_skills(savefile):
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
-        console.print(selected_pc, "abilities ([bold]esc[/bold] to return)")
+        console.print(selected_pc, "abilities ([bold]esc[/bold] to return)", style="#d68438")
+
         selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
                                           ticked_indices=list(unlocked_pc_skills.values()))
 
@@ -122,20 +136,22 @@ def modify_skills(savefile):
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
-        console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)")
+        console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)", style="#d68438")
+
         selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(s_characters.keys()).index(selected_pc))
 
 
-def modify_skins(savefile):
+def modify_skins():
     """
     Manage unlockable skins for each character
-    :param savefile: path to save file
     """
     console.clear()
     console.print(logo_game, highlight=False, style="#d68438", end='')
     console.print(logo_editor, highlight=False, style="#4bb39a")
-    console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
+    console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)", style="#d68438")
+
+    selected_pc = ['Acrid']
     selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green")
 
     while selected_pc:
@@ -146,7 +162,8 @@ def modify_skins(savefile):
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
 
-        console.print(selected_pc, "skins ([bold]esc[/bold] to return)")
+        console.print(selected_pc, "skins ([bold]esc[/bold] to return)", style="#d68438")
+
         selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
                                          ticked_indices=list(unlocked_pc_skins.values()))
 
@@ -156,19 +173,19 @@ def modify_skins(savefile):
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
-        console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)")
+        console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)", style="#d68438")
+
         selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green",
                              cursor_index=list(characters.keys()).index(selected_pc))
 
 
-def modify_artifacts(savefile):
+def modify_artifacts():
     """
     Manage unlockable artifacts
-    :param savefile:
     """
     unlocked_artifacts = core.get_unlocked_param(artifacts)
 
-    console.print("Manage game artifacts", style="#d68438")
+    console.print("Manage game artifacts ([bold]esc[/bold] to return)", style="#d68438")
     slelected_artifacts = select_multiple(list(artifacts.keys()), tick_style='green', cursor_style='green',
                                           ticked_indices=list(unlocked_artifacts.values()))
 

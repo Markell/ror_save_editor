@@ -15,7 +15,9 @@ def check_savefile(save_path):
     :param save_path: path to save file
     :return: existing save file path
     """
-    if not os.path.isfile(save_path) or os.path.isfile('save.json'):
+    save_path = ''.join(save_path)  # Convert list to string
+
+    if not os.path.isfile(save_path):
         console.print("⚠️ Save file not found", style="#FFA500")
         print(r'Your save file should be located at: '
               r'C:\Program Files (x86)\Steam\userdata\[Number]\1337520\remote\'')
@@ -52,23 +54,27 @@ def open_save_file(save_path):
     :param save_path: path to save file
     """
     global data  # All save file text
-    global flags # List with necessary parameters
+    global flags  # List with necessary parameters
 
     with open(save_path, 'r', encoding="utf-8") as savefile:  # Opens the json file
         data = json.load(savefile)  # Reads the file as json
     flags = data["flags"]  # Grabs the "flags" list from the json
 
 
-def format_to_json(name, dictionary):
+def format_to_json(name, dictionary=None):
     """
     Format income data to json format
     :param name: name of the character, skill e.t.c
     :param dictionary: array with scharaters, skills e.t.c
     :return: prepared string for save file
     """
-    name = dictionary[name]  # Get character name, skill name, ... from dictionary
+    if dictionary:
+        name = dictionary[name]  # Get character name, skill name, ... from dictionary
 
-    return f'challenge_unlock_{name}_completed'
+        return f'challenge_unlock_{name}_completed'
+
+    name = dictionary[name]  # Get character name, skill name, ... from dictionary
+    return f'challenge_unlock_{name}_viewed'
 
 
 def get_pc_param(pc_name, names_dict, params_dict):
@@ -110,21 +116,30 @@ def get_unlocked_param(params_dict):
     return unlocked_parameters
 
 
-def edit_save_file(slected_params, unlocked_params, params_dict):
+def is_viewed(formated_param):
+    if formated_param in flags:
+        return True
+    return False
+
+
+def edit_save_file(selected_params, unlocked_params, params_dict):
     """
     Add changes to save file
-    :param slected_params: selected menu items
+    :param selected_params: selected menu items
     :param unlocked_params: unlocked character parameters
     :param params_dict: dictionary with all character parameters
     """
-    if slected_params:  # Pass if there are no items selected (esc pressed)
-        for param in slected_params:
+
+    if selected_params:
+        for param in selected_params:
             if param not in unlocked_params.keys():
                 flags.append(format_to_json(param, params_dict))
 
+    if unlocked_params:
         for param in unlocked_params.keys():
-            if param not in slected_params:
+            if param not in selected_params:
                 flags.remove(format_to_json(param, params_dict))
+
 
 
 def write_to_save_file(save_path):
