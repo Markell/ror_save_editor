@@ -6,6 +6,7 @@ from . import core
 import os
 import fnmatch
 from beaupy import DefaultKeys
+from beaupy import Config
 
 logo_game = r"""
    ___  _     __          ___  ___       _        ___      __
@@ -87,6 +88,9 @@ artifacts = {"Honor": 'artifact_honor', "Kin": 'artifact_kin', "Distortion": 'ar
 console = Console()
 # Try to find in current dir save file by part of it name otherwise call file picker
 savefile = core.check_savefile(fnmatch.filter(os.listdir('.'), '*save.json'))
+Config.raise_on_interrupt = True
+DefaultKeys.escape.clear()
+DefaultKeys.interrupt.append((27,))
 
 
 def int_savefile():
@@ -104,8 +108,11 @@ def modify_characters():
     unlocked_pc = core.get_unlocked_param(characters)
 
     console.print("Manage game characters ([bold]esc[/bold] to return)", style="#d68438")
-    slelected_pc = select_multiple(list(characters.keys()), tick_style='green', cursor_style='green',
-                                   ticked_indices=list(unlocked_pc.values()))
+    try:
+        slelected_pc = select_multiple(list(characters.keys()), tick_style='green', cursor_style='green',
+                                       ticked_indices=list(unlocked_pc.values()))
+    except KeyboardInterrupt:
+        return None
 
     core.edit_save_file(slelected_pc, unlocked_pc, characters)
     core.write_to_save_file(savefile)
@@ -116,7 +123,10 @@ def modify_skills():
     Manage unlockable skils for each character
     """
     console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)", style="#d68438")
-    selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green")
+    try:
+        selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green")
+    except KeyboardInterrupt:
+        return None
 
     while selected_pc:
         all_pc_skills = core.get_pc_param(selected_pc, s_characters, skills)
@@ -127,19 +137,26 @@ def modify_skills():
         console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print(selected_pc, "abilities ([bold]esc[/bold] to return)", style="#d68438")
 
-        selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
-                                          ticked_indices=list(unlocked_pc_skills.values()))
+        try:
+            selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
+                                              ticked_indices=list(unlocked_pc_skills.values()))
+        except KeyboardInterrupt:
+            selected_skills = False
 
-        core.edit_save_file(selected_skills, unlocked_pc_skills, all_pc_skills)
-        core.write_to_save_file(savefile)
+        if selected_skills:
+            core.edit_save_file(selected_skills, unlocked_pc_skills, all_pc_skills)
+            core.write_to_save_file(savefile)
 
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print("Choose a character to unlock abilities ([bold]esc[/bold] to return)", style="#d68438")
 
-        selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green",
-                             cursor_index=list(s_characters.keys()).index(selected_pc))
+        try:
+            selected_pc = select(list(s_characters.keys()), cursor="🢧", cursor_style="green",
+                                 cursor_index=list(s_characters.keys()).index(selected_pc))
+        except KeyboardInterrupt:
+            break
 
 
 def modify_skins():
@@ -151,8 +168,10 @@ def modify_skins():
     console.print(logo_editor, highlight=False, style="#4bb39a")
     console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)", style="#d68438")
 
-    selected_pc = ['Acrid']
-    selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green")
+    try:
+        selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green")
+    except KeyboardInterrupt:
+        return None
 
     while selected_pc:
         all_pc_skins = core.get_pc_param(selected_pc, characters, skins)
@@ -164,19 +183,26 @@ def modify_skins():
 
         console.print(selected_pc, "skins ([bold]esc[/bold] to return)", style="#d68438")
 
-        selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
-                                         ticked_indices=list(unlocked_pc_skins.values()))
+        try:
+            selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
+                                             ticked_indices=list(unlocked_pc_skins.values()))
+        except KeyboardInterrupt:
+            selected_skins = False
 
-        core.edit_save_file(selected_skins, unlocked_pc_skins, all_pc_skins)
-        core.write_to_save_file(savefile)
+        if selected_skins:
+            core.edit_save_file(selected_skins, unlocked_pc_skins, all_pc_skins)
+            core.write_to_save_file(savefile)
 
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
         console.print(logo_editor, highlight=False, style="#4bb39a")
         console.print("Choose a character to unlock skins ([bold]esc[/bold] to return)", style="#d68438")
 
-        selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green",
-                             cursor_index=list(characters.keys()).index(selected_pc))
+        try:
+            selected_pc = select(list(characters.keys()), cursor="🢧", cursor_style="green",
+                                 cursor_index=list(characters.keys()).index(selected_pc))
+        except KeyboardInterrupt:
+            break
 
 
 def modify_artifacts():
@@ -186,8 +212,11 @@ def modify_artifacts():
     unlocked_artifacts = core.get_unlocked_param(artifacts)
 
     console.print("Manage game artifacts ([bold]esc[/bold] to return)", style="#d68438")
-    slelected_artifacts = select_multiple(list(artifacts.keys()), tick_style='green', cursor_style='green',
-                                          ticked_indices=list(unlocked_artifacts.values()))
+    try:
+        slelected_artifacts = select_multiple(list(artifacts.keys()), tick_style='green', cursor_style='green',
+                                              ticked_indices=list(unlocked_artifacts.values()))
+    except KeyboardInterrupt:
+        return None
 
     core.edit_save_file(slelected_artifacts, unlocked_artifacts, artifacts)
     core.write_to_save_file(savefile)
@@ -202,6 +231,9 @@ def main_menu(selected_item):
     console.print(logo_editor, highlight=False, style="#4bb39a")
 
     options = ["Unlock Characters", "Unlock Abilities", "Unlock Skins", "Unlock Artifacts", "Exit"]
-    choice = select(options, cursor="🢧", cursor_style="green", cursor_index=options.index(selected_item))
+    try:
+        choice = select(options, cursor="🢧", cursor_style="green", cursor_index=options.index(selected_item))
+    except KeyboardInterrupt:
+        return None
 
     return choice
