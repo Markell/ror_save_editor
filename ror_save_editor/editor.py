@@ -48,18 +48,18 @@ s_characters = {"Acrid": 'acrid', "Artificer": 'arti', "Bandit": 'bandit', "Load
                 }
 
 skills = {"Corrosive Wounds": 'acrid_z2', "Toxic Bubble": 'acrid_x2', "Dissolving Ambush": 'acrid_c2',
-          "Pulse Spear": 'arti_x2', "Tectonic Surge": 'arti_c2', "Localized Sun": 'arti_z2',
+          "Pulse Spear": 'arti_x2', "Tectonic Surge": 'arti_c2', "Localized Sun": 'arti_v2',
           "Whip": 'bandit_z2', "Flashbang": 'bandit_c2', "Standoff": 'bandit_v2',
           "Bullet Punch": 'loader_z2', "Short Circuit": 'loader_x2', "S260 Conduit": 'loader_v2',
-          "DRONE - BLAST": 'hand_x2', "DISASSEMBLE": 'hand_x3', "DRONE - SPEED": 'hand_v2',
+          "DRONE - SPEED": 'hand_x2', "DISASSEMBLE": 'hand_x3', "DRONE - BLAST": 'hand_v2',
           "Focused Strike": 'mercenary_x2', "Skyward Assault": 'mercenary_c2', "After-Image": 'mercenary_v2',
-          "Rapid Fire": 'pilot_z2', "Aerial Support": 'pilot_c2', "Aerobatics": 'pilot_v2',
-          "Improvise": 'sniper_z2', "Heavy Recoil": 'sniper_x2', "Quickscope": 'sniper_c2',
-          "Shrapnel Grenade": 'enforcer_z2', "Shield Tackle": 'enforcer_x2', "Disperse": 'enforcer_c2',
-          "Tornado Slam": 'drifter_z2', "Scrap Cube": 'drifter_x2', "Recycle": 'drifter_c2',
-          "V.0.2 Prototype Laser Turret": 'engi_x2', "Mortar Barrage": 'engi_c2', "Shockwave Mine": 'engi_v2',
-          "OIL JAR": 'chef_z2', "SLICE": 'chef_c2', "COOK": 'chef_v2',
-          "Drill Dash": 'miner_z2', "Throwing Axe": 'miner_x2', "Burnout": 'miner_c2'
+          "Rapid Fire": 'pilot_z2', "Aerobatics": 'pilot_c2', "Aerial Support": 'pilot_v2',
+          "Improvise": 'sniper_z2', "Quickscope": 'sniper_x2', "Heavy Recoil": 'sniper_c2',
+          "Shrapnel Grenade": 'enforcer_c2', "Shield Tackle": 'enforcer_x2', "Disperse": 'enforcer_v2',
+          "Tornado Slam": 'drifter_c2', "Scrap Cube": 'drifter_x2', "Recycle": 'drifter_v2',
+          "Mortar Barrage": 'engi_z2', "Shockwave Mine": 'engi_x2', "V.0.2 Prototype Laser Turret": 'engi_c2',
+          "SLICE": 'chef_z2', "OIL JAR": 'chef_c2', "COOK": 'chef_v2',
+          "Throwing Axe": 'miner_z2', "Drill Dash": 'miner_x2', "Burnout": 'miner_c2'
           }
 
 skins = {"Acrid Prism Skin": 'acrid_skin_s', "Acrid Last Providence Trial Skin": 'acrid_skin_p',
@@ -88,8 +88,11 @@ artifacts = {"Honor": 'artifact_honor', "Kin": 'artifact_kin', "Distortion": 'ar
 console = Console()
 # Try to find in current dir save file by part of it name otherwise call file picker
 savefile = core.check_savefile(fnmatch.filter(os.listdir('.'), '*save.json'))
+# Rise KeyboardInterrupt when esc is pressed
 Config.raise_on_interrupt = True
+# Clear keybinding for esc key
 DefaultKeys.escape.clear()
+# Set default key for interrupt to esc
 DefaultKeys.interrupt.append((27,))
 
 
@@ -182,7 +185,6 @@ def modify_skins():
         console.print(logo_editor, highlight=False, style="#4bb39a")
 
         console.print(selected_pc, "skins ([bold]esc[/bold] to return)", style="#d68438")
-
         try:
             selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
                                              ticked_indices=list(unlocked_pc_skins.values()))

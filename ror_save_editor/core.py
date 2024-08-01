@@ -40,8 +40,11 @@ def check_backup(save_path):
     Check backup of the save file is exist, if not - create new one
     :param save_path: path to save file
     """
-    if not os.path.isfile("save_backup.json"):
-        shutil.copy(save_path, "save_backup.json")
+    file_name = os.path.basename(save_path)  # Get full file name
+    file = os.path.splitext(file_name)  # Split full file name to name and extension
+
+    if not os.path.isfile(file[0] + "_backup.json"):
+        shutil.copy(save_path, file[0] + "_backup" + file[1])
 
         console.print("⚠️ Backup file created, "
                       "rename it and replace the original safe if something went wrong", style="#FFA500")
@@ -73,7 +76,7 @@ def format_to_json(name, dictionary=None):
 
         return f'challenge_unlock_{name}_completed'
 
-    name = dictionary[name]  # Get character name, skill name, ... from dictionary
+    name = dictionary[name]
     return f'challenge_unlock_{name}_viewed'
 
 
@@ -139,7 +142,6 @@ def edit_save_file(selected_params, unlocked_params, params_dict):
         for param in unlocked_params.keys():
             if param not in selected_params:
                 flags.remove(format_to_json(param, params_dict))
-
 
 
 def write_to_save_file(save_path):

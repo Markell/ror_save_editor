@@ -11,8 +11,14 @@
 ## About The Project
 Initially this project was a development of the program by [PhoenixRem1x](https://github.com/PhoenixRem1x/RoRR-Save-Editor), but later it was completely redesigned and supplemented by [gameplay.tips guide](https://gameplay.tips/guides/risk-of-rain-returns-unlock-characters-and-abilities-through-save-file-cheat-mode.html).
 
+## How To Use
+1. Go to `\Steam\userdata\(random folder name)\1337520\remote`
+2. Download portable exe file from [`releases page`](https://github.com/markell/ror_save_editor/releases) and put program in a folder mentioned above or choose save file from program file picker
+3. Run program 
+
 ## Compatibility
-Editor works with Windows 10/11 only and tested on game version `1.0.4`.
+Editor works with Windows 10/11
+Tested on game version `1.0.5`.
 
 ## Requirements
 - python3
@@ -20,8 +26,6 @@ Editor works with Windows 10/11 only and tested on game version `1.0.4`.
 - Tkinter 
 
 ## Installation
-Download portable exe file from [`releases page`](https://github.com/markell/ror_save_editor/releases)
-
 From source:
 
 ```sh
