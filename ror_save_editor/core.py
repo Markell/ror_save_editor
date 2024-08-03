@@ -132,7 +132,6 @@ def edit_save_file(selected_params, unlocked_params, params_dict):
     :param unlocked_params: unlocked character parameters
     :param params_dict: dictionary with all character parameters
     """
-
     if selected_params:
         for param in selected_params:
             if param not in unlocked_params.keys():

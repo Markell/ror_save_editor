@@ -134,6 +134,7 @@ def modify_skills():
     while selected_pc:
         all_pc_skills = core.get_pc_param(selected_pc, s_characters, skills)
         unlocked_pc_skills = core.get_unlocked_param(all_pc_skills)
+        esc_pressed = False
 
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
@@ -144,9 +145,10 @@ def modify_skills():
             selected_skills = select_multiple(list(all_pc_skills.keys()), tick_style='green', cursor_style='green',
                                               ticked_indices=list(unlocked_pc_skills.values()))
         except KeyboardInterrupt:
-            selected_skills = False
+            esc_pressed = True
+            selected_skills = None
 
-        if selected_skills:
+        if not esc_pressed:
             core.edit_save_file(selected_skills, unlocked_pc_skills, all_pc_skills)
             core.write_to_save_file(savefile)
 
@@ -179,6 +181,7 @@ def modify_skins():
     while selected_pc:
         all_pc_skins = core.get_pc_param(selected_pc, characters, skins)
         unlocked_pc_skins = core.get_unlocked_param(all_pc_skins)
+        esc_pressed = False
 
         console.clear()
         console.print(logo_game, highlight=False, style="#d68438", end='')
@@ -189,9 +192,10 @@ def modify_skins():
             selected_skins = select_multiple(list(all_pc_skins.keys()), tick_style='green', cursor_style='green',
                                              ticked_indices=list(unlocked_pc_skins.values()))
         except KeyboardInterrupt:
-            selected_skins = False
+            esc_pressed = True
+            selected_skins = None
 
-        if selected_skins:
+        if not esc_pressed:
             core.edit_save_file(selected_skins, unlocked_pc_skins, all_pc_skins)
             core.write_to_save_file(savefile)
 
