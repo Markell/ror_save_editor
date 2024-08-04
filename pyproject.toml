@@ -6,7 +6,6 @@ authors = ["Markell"]
 license = "GPL-3.0"
 repository = 'https://github.com/markell/ror_save_editor'
 readme = "README.md"
-#virtualenvs.in-project = true
 
 [tool.poetry.dependencies]
 python = ">=3.8.0,<3.13.0"

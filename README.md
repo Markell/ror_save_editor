@@ -8,10 +8,10 @@
 </div>
 <br/>
 
-## 🗃️About The Project
+## 🗃️About my first Project
 Originally this project was a development of the program by [PhoenixRem1x](https://github.com/PhoenixRem1x/RoRR-Save-Editor), but later it was completely redesigned and supplemented by the [gameplay.tips guide](https://gameplay.tips/guides/risk-of-rain-returns-unlock-characters-and-abilities-through-save-file-cheat-mode.html).
 
-## 🔌How To Use
+## 🔌How to use
 1. Go to `\Steam\userdata\(random folder name)\1337520\remote`
 2. Download portable exe file from the [`releases page`](https://github.com/markell/ror_save_editor/releases) and put the program in a folder mentioned above or choose save file from the program file picker.
 3. Run the program 
@@ -21,18 +21,19 @@ Originally this project was a development of the program by [PhoenixRem1x](https
 
 ##  🧰Requirements
 - python3
+- Tkinter
 - [beaupy](https://github.com/petereon/beaupy/)
-- Tkinter 
+- [pyinstaller](https://github.com/pyinstaller/pyinstaller)
 
 ## 🔨 How to build
 
 ```sh
 git clone https://github.com/markell/ror_save_editor.git
-poetry build
-pip install ./dist/ror_save_editor-{{some-version}}-py3-none-any.whl
+cd ror_save_editor
+poetry run build
 ```
 
-### 📋Plans To Do
+## 📋Plans To Do
 - [ ] Game wiki link system
 - [ ] Translation to all in-game languages
 - [ ] Original Risk of Rain game support

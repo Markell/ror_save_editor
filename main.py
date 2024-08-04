@@ -25,6 +25,7 @@ def run():
 
     console.clear()
     console.print(editor.logo_img, highlight=False, style="#ffd557")
+    console.print("                                  See You Space Cowboy...")
     console.input("                            Press [bold]Enter[/bold] to continue...")
 
 

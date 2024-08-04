@@ -57,7 +57,7 @@ skills = {"Corrosive Wounds": 'acrid_z2', "Toxic Bubble": 'acrid_x2', "Dissolvin
           "Improvise": 'sniper_z2', "Quickscope": 'sniper_x2', "Heavy Recoil": 'sniper_c2',
           "Shrapnel Grenade": 'enforcer_c2', "Shield Tackle": 'enforcer_x2', "Disperse": 'enforcer_v2',
           "Tornado Slam": 'drifter_c2', "Scrap Cube": 'drifter_x2', "Recycle": 'drifter_v2',
-          "Mortar Barrage": 'engi_z2', "Shockwave Mine": 'engi_x2', "V.0.2 Prototype Laser Turret": 'engi_c2',
+          "Mortar Barrage": 'engi_z2', "Shockwave Mine": 'engi_x2', "V.0.2 Prototype Laser Turret": 'engi_v2',
           "SLICE": 'chef_z2', "OIL JAR": 'chef_c2', "COOK": 'chef_v2',
           "Throwing Axe": 'miner_z2', "Drill Dash": 'miner_x2', "Burnout": 'miner_c2'
           }
